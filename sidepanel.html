@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Side Panel</title>
+  <style>
+    body {
+      width: 320px;
+      padding: 12px;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #222;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+    }
+    .notifier {
+      display: none;
+      margin-bottom: 10px;
+      padding: 8px 10px;
+      border: 1px solid #c3e6cb;
+      background: #d4edda;
+      color: #155724;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    .menu, .feature-view {
+      display: none;
+    }
+    .menu.active, .feature-view.active {
+      display: block;
+    }
+    .menu button, .feature-actions button {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .menu button.disabled {
+      background-color: #bdbdbd;
+      cursor: not-allowed;
+    }
+    .menu button:hover, .feature-actions button:hover {
+      background-color: #45a049;
+    }
+    .feature-title {
+      margin: 6px 0 12px 0;
+      font-size: 16px;
+      text-align: center;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      margin: 0 auto 10px auto;
+      background: #e0e0e0;
+      color: #333;
+    }
+    .status-running { background: #d4edda; color: #155724; }
+    .status-stopped { background: #f8d7da; color: #721c24; }
+    .feature-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .back {
+      background: #1976d2;
+    }
+    .back:hover {
+      background: #1565c0;
+    }
+  </style>
+  <script defer src="sidepanel.js"></script>
+  </head>
+<body>
+  <!--This is a comment. Comments are not displayed in the browser
+
+ <div class="header">
+    <h3>EXT Side Panel</h3>
+  </div>
+-->
+
+
+  <div id="menu" class="menu active">
+    <button data-feature="Run Feature1">Run Feature1</button>
+    <button data-feature="next feature 2" data-disabled="true" class="disabled">next feature 2</button>
+    <button data-feature="next feature 3" data-disabled="true" class="disabled">next feature 3</button>
+    <button data-feature="next feature 4" data-disabled="true" class="disabled">next feature 4</button>
+    <button data-feature="next feature 5" data-disabled="true" class="disabled">next feature 5</button>
+  </div>
+
+  <div id="featureView" class="feature-view">
+    <div class="feature-title" id="featureTitle"></div>
+    <div id="statusBadge" class="status-badge status-stopped">Stopped</div>
+    <div class="feature-actions">
+      <button id="startBtn">Start feature</button>
+      <button id="stopBtn">Stop feature</button>
+    </div>
+    <button id="backBtn" class="back" style="width: 100%; padding: 10px; border: none; border-radius: 4px; color: #fff; cursor: pointer;">Back to main menu</button>
+  </div>
+  
+  <div id="notifier" class="notifier"></div>
+  <div class="saved-items" id="savedItems">
+    <h4>Recently Saved:</h4>
+    <div id="savedList"></div>
+  </div>
+
+</body>
+</html>
+

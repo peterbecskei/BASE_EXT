@@ -1,0 +1,74 @@
+Projekt prompt összefoglaló (USER eredeti kérései, fordítás/értelmezés, megoldás fő pontok)
+
+1) USER prompt (eredeti nyelven):
+"Készíts egy sidepanel.js és a hozzá tartozó html-t az Ext-höz.  A panelen legyen 5 menüpont (5 gomb) felirata "next feature 1"... "next feature 5". Minden gomb egy "menüt" (tabot) nyit meg aminden a fejlécében a gomb felirata (menu title) . legyen és egy "Start feature", és egy "Stop feature" gomb. 
+És egy "Back to main menu". Egyelőre a gombok mögött csak egy ext "notifier" legyen, a "gomb megnyomva" felirattal."
+
+Fordítás/értelmezés (Cursor):
+- Hozzunk létre sidepanel.html + sidepanel.js fájlokat a beépített Side Panelhez.
+- 5 menügomb ("next feature 1".."next feature 5"), mindegyik saját tab nézetet nyit.
+- A tab tartalmazza a menü címét, "Start feature", "Stop feature", és "Back to main menu" gombokat.
+- Minden gombnyomáskor in-panel értesítő: "gomb megnyomva".
+
+2) USER prompt:
+"a popup menyitása előtt nyissa meg a sidepanelt is,"
+
+Fordítás/értelmezés:
+- A popup megnyitása során a Side Panel is nyíljon meg az aktuális fülön.
+- Megvalósítás: chrome.sidePanel.open({ tabId }), de csak felhasználói gesztusra hívható.
+
+3) USER prompt:
+"a newIcon.png legyen az ext ikon"
+
+Fordítás/értelmezés:
+- Az extension fő és action ikonja legyen newIcon.png (minden méret ehhez a fájlhoz mutat).
+
+4) USER prompt (hiba jelzés):
+"de panel open failed: Error: `sidePanel.open()` may only be called in response to a user gesture."
+
+Fordítás/értelmezés:
+- A Side Panel nyitását DOMContentLoaded helyett első felhasználói kattintáshoz vagy gombnyomáshoz kell kötni a popupban (user gesture requirement).
+
+5) USER prompt:
+"legyen az első \"next feature 1\" felirata \"Run Feature1\". A többi 4 gomb pedig egyelőre adja vissza a notifiert , hogy \"under develope\" és legyen szűrke (nem kattinható sylus). A későbbi felejeztéreknek számára fentartva."
+
+Fordítás/értelmezés:
+- Az első gomb neve legyen "Run Feature1" és aktív tabot nyisson.
+- A többi négy gomb legyen szürke, nem kattintható stílus; kattintásra csak "under develope" notifier.
+
+6) USER prompt:
+"A sidepanel \"Run Feature 1\" menü \"Start feature\" gombal indítsa el a \"backgorund.js\"-t. A \"Stop feature\" gombbal pedig állítsa le ha fut a háttérben."
+
+Fordítás/értelmezés:
+- Side Panelből üzenetek a háttérnek: start/stop a háttér folyamatra.
+- Háttérben start/stop állapot és megszakítható futás szükséges.
+
+7) USER prompt:
+"kérek" (vizuális visszajelzés/státusz kérése)
+
+Fordítás/értelmezés:
+- A panelen jelenjen meg futási státusz (Running/Stopped), gombok ennek megfelelő tiltása/engedélyezése, és élő frissítés háttér státusz alapján.
+
+8) Kisebb további kérések / módosítások
+- Manifest név módosítás, ikon csere (newIcon.png).
+- CHECK_INTERVAL módosítása a háttérben.
+- Side Panelben "Recently Saved" blokk hozzáadása (UI).
+
+---
+Megoldás – fő pontok vázlatosan
+
+- Side Panel
+  - sidepanel.html: menü (Run Feature1 + 4 disabled), tab nézet címkével, Start/Stop, Back, notifier, státusz badge.
+  - sidepanel.js: menü/tab logika; disabled gombok "under develope" üzenettel; Start/Stop üzenetek a háttérnek; státusz badge és gombállapotok; realtime státusz figyelés.
+
+- Popup
+  - popup.js: Side Panel megnyitása csak felhasználói gesztusra (első kattintás/gombnyomás), így nincs gesture hiba.
+
+- Háttér
+  - background.js: isChecking/shouldContinue flag-ek; megszakítható startChecking() ciklus; stopChecking(); státusz broadcast (runtime.sendMessage), getStatus válasz.
+
+- Manifest/ikon
+  - manifest.json: side_panel.default_path → sidepanel.html; jogosultságok; icons és action.default_icon → newIcon.png.
+
+Megjegyzés
+- A Side Panel automatikus nyitása a Chrome szabályai szerint csak felhasználói gesztusra megengedett; ezt a popup első interakciójához kötöttük.
