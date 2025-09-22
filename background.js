@@ -156,7 +156,7 @@ async function startChecking() {
   console.log('Autó adatok ellenőrzése elkezdődött...');
   broadcastStatus();
 
-  for (let id = LastID; shouldContinue && id <= LastID + 10000; id++) {
+  for (let id = LastID; shouldContinue && id <= LastID + 20000; id++) {
     // Ha már ellenőriztük korábban, kihagyjuk
     if (URLData[id] && URLData[id].exists !== undefined) {
       console.log(`ID ${id}: Már ellenőrizve korábban`);
