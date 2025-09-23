@@ -8,6 +8,62 @@ document.addEventListener('DOMContentLoaded', function() {
   const stopBtn = document.getElementById('stopBtn');
   const backBtn = document.getElementById('backBtn');
   const statusBadge = document.getElementById('statusBadge');
+  const savedList = document.getElementById('savedList');
+
+
+let lastIDPS = null;
+
+chrome.storage.session.get('LastID').then(result => {
+  lastIDPS = result.LastID;
+});
+
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === 'session' && changes.LastID) {
+    lastIDPS = changes.LastID.newValue;
+    console.log('LastID changed, new value:', lastIDPS);
+    savedList.innerHTML = lastIDPS;
+    // További műveletek itt
+  }
+});
+
+// Load recent saved items from storage
+  function loadRecentItems() {
+    loadStoredData()
+    savedList.innerHTML = '';
+    //   console.log("sss")
+    //    Filter and sort items
+    const htmlItems = [];
+    for (let key in URLData) {
+      htmlItems.push({
+        key: key,
+        data: URLData[key]
+      });
+    }
+
+    //    Sort by timestamp (newest first)
+    htmlItems.sort((a, b) =>
+        new Date(b.data.timestamp) - new Date(a.data.timestamp)
+    );
+
+    // Display recent items (max 5)
+    const displayItems = htmlItems.slice(0, 5);
+    if (displayItems.length === 0) {
+      savedList.innerHTML = '<p>No saved HTML yet</p>';
+      return;
+    }
+
+    displayItems.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'saved-item';
+      div.innerHTML = `
+            <strong>${item.data.ELEMData} ${item.data.exists}</strong><br>
+        <small>${new Date(item.data.timestamp).toLocaleString()}  ${item.data.url}</small>
+        `;
+      savedList.appendChild(div);
+    });
+
+  }
+
 
   function showNotifier(message) {
     notifier.textContent = message;

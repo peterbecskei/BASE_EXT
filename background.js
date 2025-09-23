@@ -3,7 +3,7 @@
 // Konfiguráció
 const CONFIG = {
  
-  START_ID: 1194925,
+  START_ID: 1208557,
   NOID : 0,  
 
   BASE_URL: 'https://www.automobile.at/boerse/expose/',
@@ -80,7 +80,7 @@ function saveData() {
 
 // URL ellenőrzése fetch-el
 async function checkUrl(id) {
-  if (CONFIG.NOID > 15) {id=id-20 ; CONFIG.NOID=0}
+  if (CONFIG.NOID > 15) {id=id-20 ; CONFIG.NOID=0; LastID=id}
   const url = `${CONFIG.BASE_URL}${id}`;
 
   try {
@@ -111,7 +111,7 @@ async function checkUrl(id) {
     }
 
     if (response.status === 200) {
-      console.log(`ID ${id}: LÉTEZIK (200)`);
+      //console.log(`ID ${id}: LÉTEZIK (200)`);
       CONFIG.NOID = 0
       // Ha szeretnéd a teljes tartalmat is, használd ezt:
       /*
@@ -142,7 +142,7 @@ async function checkUrl(id) {
 
       return true;
     } else {
-      console.log(`ID ${id}: Nem létezik (${response.status}) ${url}  `);
+      //console.log(`ID ${id}: Nem létezik (${response.status}) ${url}  `);
       CONFIG.NOID ++
       URLData[id] = {
         exists: false,
