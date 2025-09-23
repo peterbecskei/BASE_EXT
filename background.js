@@ -4,7 +4,7 @@
 const CONFIG = {
  
   START_ID: 1194925,
-  
+  NOID : 0,  
 
   BASE_URL: 'https://www.automobile.at/boerse/expose/',
 
@@ -80,6 +80,7 @@ function saveData() {
 
 // URL ellenőrzése fetch-el
 async function checkUrl(id) {
+  if (CONFIG.NOID > 15) {id=id-20 ; CONFIG.NOID=0}
   const url = `${CONFIG.BASE_URL}${id}`;
 
   try {
@@ -111,7 +112,7 @@ async function checkUrl(id) {
 
     if (response.status === 200) {
       console.log(`ID ${id}: LÉTEZIK (200)`);
-
+      CONFIG.NOID = 0
       // Ha szeretnéd a teljes tartalmat is, használd ezt:
       /*
       const fullResponse = await fetch(url);
@@ -142,6 +143,7 @@ async function checkUrl(id) {
       return true;
     } else {
       console.log(`ID ${id}: Nem létezik (${response.status}) ${url}  `);
+      CONFIG.NOID ++
       URLData[id] = {
         exists: false,
         url: url,
@@ -152,6 +154,7 @@ async function checkUrl(id) {
     }
   } catch (error) {
     console.error(`ID ${id}: Hiba -`, error.message);
+    CONFIG.NOID ++
     URLData[id] = {
       exists: false,
       url: url,
