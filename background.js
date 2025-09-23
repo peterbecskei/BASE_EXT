@@ -8,11 +8,27 @@ const CONFIG = {
 
   BASE_URL: 'https://www.automobile.at/boerse/expose/',
 
-  CHECK_INTERVAL: 350, // 10 másodperc várakozás kérek között
+  CHECK_INTERVAL: 150, // 10 másodperc várakozás kérek között
   STORAGE_KEY: 'URL_data'
 };
 
-
+// Állítsuk a LastID-t az URLData legnagyobb, létező (exists=true) azonosítójára
+function updateLastIDFromURLData() {
+  try {
+    const candidateIds = Object.keys(URLData)
+      .filter((key) => URLData[key] && URLData[key].exists === true)
+      .map((key) => Number(key))
+      .filter((n) => Number.isFinite(n));
+    if (candidateIds.length > 0) {
+      const maxId = Math.max(...candidateIds);
+      LastID = maxId;
+      saveLastIDToSession();
+      console.log('LastID frissítve az URLData alapján:', LastID);
+    }
+  } catch (e) {
+    console.error('Nem sikerült LastID-t frissíteni URLData-ból:', e);
+  }
+}
 
 
   // Fő változó az adatok tárolására
@@ -30,6 +46,7 @@ function saveLastIDToSession() {
 // Extension indításakor
 chrome.runtime.onStartup.addListener(() => {
   loadStoredData();
+  updateLastIDFromURLData();
   // Ne induljon automatikusan; a side panelről indítjuk
 });
 
@@ -154,8 +171,10 @@ async function startChecking() {
   shouldContinue = true;
   isChecking = true;
   console.log('Autó adatok ellenőrzése elkezdődött...');
+  loadStoredData();
+  updateLastIDFromURLData();
   broadcastStatus();
-
+  console.log('Autó adatok loaded from storidge');
   for (let id = LastID; shouldContinue && id <= LastID + 20000; id++) {
     // Ha már ellenőriztük korábban, kihagyjuk
     if (URLData[id] && URLData[id].exists !== undefined) {
