@@ -70,4 +70,24 @@ pauseButton.addEventListener("click", () => {
   });
 });
 
+
+// LastId megjelenítése a sidepanelen ha változik
+  const savedList = document.getElementById('savedList');
+
+
+  let lastIDPS = null;
+
+  chrome.storage.session.get('LastID').then(result => {
+    lastIDPS = result.LastID;
+  });
+
+  chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName === 'session' && changes.LastID) {
+      lastIDPS = changes.LastID.newValue;
+      console.log('LastID changed, new value:', lastIDPS);
+      savedList.innerHTML = lastIDPS;
+      // További műveletek itt
+    }
+  });
+
 });  // end of EventListener("DOMContentLoaded",
