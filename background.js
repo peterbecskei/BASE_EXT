@@ -201,7 +201,7 @@ async function startChecking() {
   broadcastStatus();
 }
 
-function stopChecking() {
+function pauseChecking() {
   if (!isChecking) {
     console.log('Nincs futó ellenőrzés.');
   }
@@ -212,13 +212,13 @@ function stopChecking() {
 // Külső hívások kezelése (pl. popup-ból)
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.action) {
-    case 'startCheck':
+    case 'start':
       startChecking();
       sendResponse({ status: 'started' });
       break;
 
-    case 'stopCheck':
-      stopChecking();
+    case 'pause':
+      pauseChecking();
       sendResponse({ status: 'stopped' });
       break;
 

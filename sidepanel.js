@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const mainMenu = document.getElementById("main-menu");
   const playSubmenu = document.getElementById("play-submenu");
   const filterSubmenu = document.getElementById("filter-submenu");
-  const startBTN = document.getElementById("start");
-  const pauseBTN = document.getElementById("pause");
   const notifySubmenu = document.getElementById("notify-submenu");
-
+// Handle "Start" and "Pause" buttons
+  const startButton = document.getElementById("start");
+  const pauseButton = document.getElementById("pause");
 
 
   const menus = {
@@ -38,4 +38,36 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+
+
+
+startButton.addEventListener("click", () => {
+  chrome.runtime.sendMessage({ action: 'start' }, function(resp) {
+    // opcionális: státusz visszajelzés
+  });
+  navigator.serviceWorker.getRegistration().then(registration => {
+    if (registration) {
+      registration.active.postMessage({ action: "start" });
+      console.log("Message sent: start");
+    } else {
+      console.error("background.js is not running.");
+    }
+  });
 });
+
+pauseButton.addEventListener("click", () => {
+  chrome.runtime.sendMessage({ action: 'pause' }, function(resp) {
+    // opcionális: státusz visszajelzés
+  });
+  navigator.serviceWorker.getRegistration().then(registration => {
+    if (registration) {
+      registration.active.postMessage({ action: "pause" });
+      console.log("Message sent: pause");
+    } else {
+      console.error("background.js is not running.");
+    }
+  });
+});
+
+});  // end of EventListener("DOMContentLoaded",
