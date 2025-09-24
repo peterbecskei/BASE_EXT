@@ -2,7 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const mainMenu = document.getElementById("main-menu");
   const playSubmenu = document.getElementById("play-submenu");
   const filterSubmenu = document.getElementById("filter-submenu");
+  const startBTN = document.getElementById("start");
+  const pauseBTN = document.getElementById("pause");
   const notifySubmenu = document.getElementById("notify-submenu");
+
+
 
   const menus = {
     "play-menu": playSubmenu,
