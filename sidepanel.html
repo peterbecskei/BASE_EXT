@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Side Panel</title>
+  <style>
+    .menu, .submenu {
+      display: none;
+    }
+    .menu.active, .submenu.active {
+      display: block;
+    }
+    button {
+      margin: 5px;
+      padding: 10px;
+    }
+    input {
+      margin: 5px;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="main-menu" class="menu active">
+    <button id="play-menu">PLAY menu</button>
+    <button id="filter-menu">FILTER menu</button>
+    <button id="notify-menu">NOTIFY menu</button>
+    <button disabled>next feature 4</button>
+    <button disabled>next feature 5</button>
+  </div>
+
+  <div id="play-submenu" class="submenu">
+    <h2>PLAY menu</h2>
+    <button id="start">Start</button>
+    <button id="pause">Pause</button>
+    <button id="stop">Stop</button>
+    <button class="back">Back to main</button>
+  </div>
+
+  <div id="filter-submenu" class="submenu">
+    <h2>FILTER menu</h2>
+    <button id="get">GET</button>
+    <button id="delete">Delete</button>
+    <button id="edit">Edit</button>
+    <input type="text" id="filter-input" placeholder="FILTER néven">
+    <button class="back">Back to main</button>
+  </div>
+
+  <div id="notify-submenu" class="submenu">
+    <h2>NOTIFY menu</h2>
+    <button id="email">EMAIL</button>
+    <button id="popup">POPUP</button>
+    <button id="csv">CSV</button>
+    <button class="back">Back to main</button>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>
