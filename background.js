@@ -50,8 +50,11 @@ chrome.runtime.onStartup.addListener(() => {
   // Ne induljon automatikusan; a side panelről indítjuk
 });
 
+
 // Extension install/update esetén
 chrome.runtime.onInstalled.addListener(() => {
+  console.log('Extension installed');
+  chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
   LastID = CONFIG.START_ID;
   // Indítás kézzel történik a side panelről
 });
